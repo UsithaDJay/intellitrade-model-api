@@ -1,54 +1,64 @@
-# 📊 IntelliTrade-backend
+# 🤖 IntelliTrade Model API
 
-This backend system is designed to simulate a real-time stock prediction platform using historical OHLCV and extended hours data. It is implemented using **FastAPI**, **SQLAlchemy**, and **PostgreSQL**, and supports model training, prediction, and data labeling workflows.
+**IntelliTrade Model API** is a lightweight and deployable prediction service designed for the **IntelliTrade** stock trading system. Built with **FastAPI** and powered by a trained **XGBoost** model, this API provides actionable trading signals for each trading day.
+
+### 🧠 What It Does
+
+- Accepts stock market data from the previous **post-market session** to the current **pre-market session**.
+- Performs internal feature engineering (e.g., moving averages).
+- Feeds engineered features into an XGBoost model.
+- Returns a trading action signal — **Buy**, **Sell**, or **Hold** — **before the market opens**.
+- Also returns the **model's confidence (probability)** in its prediction.
+
+This allows investors to take informed action at market open and ideally close the position by market close.
 
 ---
 
 ## 🛠️ Features
 
-- Store OHLCV and extended hours data per symbol and date.
-- Store processed features and labels for prediction tasks.
-- Simulate real-time daily data updates.
-- Predict buy/sell/hold decisions via a trained ML model.
-- Allow model retraining at configurable frequencies.
-- Built with modular and maintainable structure.
+- Accepts recent market data from clients (e.g., via frontend or another API).
+- Performs in-API feature engineering (e.g., moving averages).
+- Serves predictions from a trained XGBoost model.
+- Lightweight and production-ready design.
+- Easily deployable as a microservice.
 
 ---
 
 ## 📁 Folder Structure
 
 ```bash
-IntelliTrade-backend
-├── app/
-│ ├── main.py # FastAPI entry point
-│ ├── db.py # DB engine and session setup
-│ ├── models.py # SQLAlchemy models
-│ ├── crud.py # CRUD operations
-│ ├── schemas.py # Pydantic schemas
-│ ├── utils/
-│ │ ├── preprocessing.py # Preprocessing functions
-│ │ └── model.py # ML model training/prediction
-│
+intelliTrade-model-api
+├── model/
+│   ├── load_model.py
+│   └── predict.py
+├── routes/
+│    └── predict.py
+├── routes/
+│    └── predict.py
+├── services/
+│   ├── service_compute_features.py
+│   └── service_model.py
+├── .gitignore
+├── main.py                  # FastAPI entry point
 ├── requirements.txt
 ├── README.md
-└── .env # Environment variables
+└── .env                     # (Optional) environment configuration
 ```
 
 ## ⚙️ Requirements
 
 - Python 3.8+
-- PostgreSQL
-- pip
+- pip (for package management)
 
 ---
 
-## 🚀 Setup Instructions
+## 🚀 Local Setup Instructions
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/UsithaDJay/IntelliTrade-backend.git
-cd IntelliTrade-backend
+git clone https://github.com/UsithaDJay/intellitrade-model-api.git
+cd intelliTrade-model-api
 ```
 
 ### 2. Create a Virtual Environment
@@ -71,46 +81,20 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 4. Create and Configure PostgreSQL Database(Skip this step for now)
-
-- Make sure PostgreSQL is installed and running.
-
-#### Create a new database named stock_db:
-```bash
-psql -U postgres
-CREATE DATABASE stock_db;
-```
-
-#### Create a .env file at the root level:
-```bash
-DATABASE_URL=postgresql://postgres:yourpassword@localhost/stock_db
-```
-
-Update DATABASE_URL in models.py or db.py to use environment variable (optional but recommended).
-
-#### Initialize Database
-```bash
-python create_tables.py
-```
-
-This will create the required tables: ohlcv_data, extended_hours_data, and processed_data.
-
-### 5. Run FastAPI Server
+### 4. Run FastAPI Server
 
 ```bash
-uvicorn app.main:app --reload
+uvicorn main:app --reload
 ```
 
 Visit your backend at:
 - 👉 http://127.0.0.1:8000
 - 👉 Swagger UI: http://127.0.0.1:8000/docs
 
-## ✅ Example Workflow
+## 📬 How It Works
 
-1. Collect and store daily OHLCV and extended hours data.
-2. Run preprocessing to create feature vectors.
-3. Store processed data and labels in the database.
-4. Train the model using historical data.
-5. Simulate new daily data and get predictions.
-6. Update labels when the next day’s data becomes available.
-7. Retrain model periodically based on your settings (daily/weekly/monthly).
+1. Frontend or another backend service recent market data (e.g., market close prices in last 21 days).
+2. The API computes necessary features (e.g., MA_21, rolling statistics).
+3. It passes the features into a trained XGBoost model.
+4. The model returns a prediction (e.g., Buy).
+5. The response is returned as JSON.
