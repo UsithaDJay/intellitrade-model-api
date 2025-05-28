@@ -12,7 +12,7 @@ def predict_endpoint(
     request: PredictRequestSchema,
 ) -> PredictResponseSchema:
     try:
-        result = ModelService().predict(raw_data=request)
+        result = ModelService().predict(input_data=request)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
     return result

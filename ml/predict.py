@@ -1,7 +1,7 @@
 from schemas.schema_predict import PredictResponseSchema
 import pandas as pd
 
-def predict(model, input_features: pd.DataFrame) -> PredictResponseSchema:
+def predict(model, input_features: pd.DataFrame):
     prediction_id = model.predict(input_features)
     pred_probabilities = model.predict_proba(input_features)
     if len(prediction_id) == 0 or len(pred_probabilities) == 0:
@@ -25,9 +25,4 @@ def predict(model, input_features: pd.DataFrame) -> PredictResponseSchema:
     buy_probability = pred_probabilities[0][2]
     print(f"Prediction: {prediction}, Sell Probability: {sell_probability}, Hold Probability: {hold_probability}, Buy Probability: {buy_probability}")
 
-    return PredictResponseSchema(
-        prediction=prediction,
-        sell_probability=sell_probability,
-        hold_probability=hold_probability,
-        buy_probability=buy_probability
-    )
+    return prediction, sell_probability, hold_probability, buy_probability
