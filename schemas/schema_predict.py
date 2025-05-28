@@ -1,25 +1,25 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 from datetime import date
 
 class DailyDataItem(BaseModel):
     date: date
-    open: float
-    high: float
-    low: float
-    close: float
+    open: Optional[float] = None
+    high: Optional[float] = None
+    low: Optional[float] = None
+    close: Optional[float] = None
     pre_market_price_start: float
     pre_market_price_end: float
     pre_market_price_min: float
     pre_market_price_max: float
     pre_market_price_mean: float
     pre_market_price_std: float
-    post_market_price_start: float
-    post_market_price_end: float
-    post_market_price_min: float
-    post_market_price_max: float
-    post_market_price_mean: float
-    post_market_price_std: float
+    post_market_price_start: Optional[float] = None
+    post_market_price_end: Optional[float] = None
+    post_market_price_min: Optional[float] = None
+    post_market_price_max: Optional[float] = None
+    post_market_price_mean: Optional[float] = None
+    post_market_price_std: Optional[float] = None
 
 
 class PredictRequestSchema(BaseModel):
