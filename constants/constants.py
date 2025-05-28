@@ -40,3 +40,5 @@ ALL_DAY_OF_WEEK_DUMMIES = [
     'DAY_OF_WEEK_Thursday','DAY_OF_WEEK_Tuesday',
     'DAY_OF_WEEK_Wednesday'
 ]
+
+PROBABILITY_THRESHOLD = 0.5
