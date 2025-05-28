@@ -28,17 +28,25 @@ This allows investors to take informed action at market open and ideally close t
 
 ```bash
 intelliTrade-model-api
-├── model/
+├── constants/
+│    └── constants.py
+├── ml/
+│   ├── model/
+│   │    └── xgb_model.pkl
+│   ├── features.py
 │   ├── load_model.py
 │   └── predict.py
 ├── routes/
-│    └── predict.py
-├── routes/
-│    └── predict.py
+│    └── router_predict.py
+├── schemas/
+│    └── schema_predict.py
 ├── services/
 │   ├── service_compute_features.py
 │   └── service_model.py
+├── utils/
+│    └── utils.py
 ├── .gitignore
+├── intellitrade-model-api.postman_collection.json # sample postman collection
 ├── main.py                  # FastAPI entry point
 ├── requirements.txt
 ├── README.md
@@ -47,7 +55,7 @@ intelliTrade-model-api
 
 ## ⚙️ Requirements
 
-- Python 3.8+
+- Python 3.11+
 - pip (for package management)
 
 ---
