@@ -1,7 +1,12 @@
 from constants.constants import PROBABILITY_THRESHOLD
 import pandas as pd
+import logging
 
 def predict(model, input_features: pd.DataFrame):
+    logger = logging.getLogger(__name__)
+    logger.info("Features shape: %s", input_features.shape)
+    logger.info("Feature columns: %s", input_features.columns.tolist())
+    logger.info("First row: %s", input_features.iloc[0].to_dict() if not input_features.empty else "Empty")
     model_prediction_id = model.predict(input_features)
     pred_probabilities = model.predict_proba(input_features)
     if len(model_prediction_id) == 0 or len(pred_probabilities) == 0:
