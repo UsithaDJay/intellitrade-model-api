@@ -9,7 +9,7 @@ app.include_router(router_predict.router)
 
 @app.get("/")
 def root():
-    return {"message": "Model API is running!"}
+    return {"message": "Intellitrade Model API is running!"}
 
 # @app.post("/predict", response_model=PredictResponseSchema)
 # def predict_endpoint(request: PredictRequestSchema):
