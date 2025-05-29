@@ -10,10 +10,10 @@ router = APIRouter(prefix="/predict", tags=["predict"])
 async def predict_endpoint(
     request: PredictRequestSchema,
 ) -> PredictResponseSchema:
-    print(f"Received prediction request for {request.sym_root} on {request.reference_date}")
+    print(f"Received prediction request for {request.sym_root} on {request.reference_date} for {len(request.daily_raw_data_list)} days of data.")
     if not request.daily_raw_data_list:
         raise HTTPException(status_code=400, detail="No daily raw data provided.")
-    print(f"Request body: {request.model_dump_json(indent=2)}")
+    # print(f"Request body: {request.model_dump_json(indent=2)}")
     try:
         result = ModelService().predict(input_data=request)
         return result
